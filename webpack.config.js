@@ -1,6 +1,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = {
   module: {
@@ -15,14 +15,20 @@ module.exports = {
     ],
   },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: "./src/service-worker.js", to: "./service-worker.js" },
-      { from: "./src/register-sw.js", to: "./register-sw.js" },
-    ]),
     new CleanWebpackPlugin('dist'),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
       filename: "./index.html"
+    }),
+    new GenerateSW({
+      swDest: 'sw.js',
+      clientsClaim: true,
+      skipWaiting: true,
+      // runtimeCaching configuration
+      // runtimeCaching: [{
+      //   urlPattern: new RegExp('https://hacker-news.firebaseio.com'),
+      //   handler: 'staleWhileRevalidate'
+      // }],
     }),
   ],
 };
