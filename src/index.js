@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import { TweenLite } from "gsap";
+import { TweenLite, TimelineLite } from "gsap";
 
 class App extends PureComponent {
   constructor(props) {
@@ -11,6 +11,10 @@ class App extends PureComponent {
   componentDidMount() {
     this.tween1 = TweenLite.to(this.div1, 1, { x: 100 });
     this.tween2 = TweenLite.to(this.div2, 1, { x: 100 });
+
+    this.tl = new TimelineLite({})
+      .to(this.div1, 1, { y: 100 })
+      .to(this.div1, 1, { x: 200 });
   }
 
   setRef(name) {
